@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis . org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zz.written_test.dao.BatchTaggingDao">
+    <sql id="product">
+        id,
+        brand,
+        product_name,
+        series,
+        key1,
+        key2,
+        key3,
+        key4,
+        mapping
+    </sql>
+    <select id="batchFind" resultType="com.zz.written_test.entity.Product">
+        select <include refid="product"/>
+        from product where id = #{id}
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+    <insert id="makeTags">
+        insert into product
+        (
+            `id`,
+            `brand`,
+            `product_name`,
+            `series`,
+            `key1`,
+            `key2`,
+            `key3`,
+            `key4`,
+            `mapping`,
+        )
+        values
+        (
+            #{id},
+            #{brand},
+            #{productName},
+            #{series},
+            #{key1},
+            #{key2},
+            #{key3},
+            #{key4},
+            #{mapping}
+        )
+    </insert>
+
+    <update id="updateProduct">
+        update sys_major
+        <set>
+            <if test="brand != null">`brand` = #{brand}, </if>
+            <if test="productName != null">`product_name` = #{productName}, </if>
+            <if test="series != null">`series` = #{series}, </if>
+            <if test="key1 != null">`key1` = #{key1}, </if>
+            <if test="key2 != null">`key2` = #{key2}, </if>
+            <if test="key3 != null">`key3` = #{key3}, </if>
+            <if test="key4 != null">`key4` = #{key4}, </if>
+            <if test="mapping != null">`mapping` = #{mapping}</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
